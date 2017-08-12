@@ -5,6 +5,8 @@
 ##
 ## curl -H "Content-Type: application/json" -X POST -d '{"tt1": ["50", "0.25"], "qa1": ["85", "0.05"]}' http://localhost:8080
 ##
+## @author Gideon Providence
+##
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
 import simplejson
