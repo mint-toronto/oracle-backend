@@ -3,3 +3,4 @@ lib/
 include/
 pip-selfcheck.json
 src/model/__pycache__
+*~
