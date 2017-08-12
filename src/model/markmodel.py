@@ -1,3 +1,6 @@
+#
+# @author: Andrew Ross
+#
 import numpy as np
 import tflearn
 import tensorflow as tf
@@ -9,6 +12,9 @@ from tflearn.layers.normalization import local_response_normalization
 from tflearn.layers.estimator import regression
 
 class MarkModel:
+	letter_grade = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F', 'F-']
+	letter_grade_key = {i: letter_grade[i] for i in range(len(letter_grade))}
+	
 	def __init__(self):
 		
 		self.model = self.__construct_model__()
@@ -53,7 +59,7 @@ class MarkModel:
 		model.load('./mark_cnn_20170812.tfl')
 		return model
 	
-	def predict_mark(self, mark_wgt):
+	def predict_mark_dist(self, mark_wgt):
 		# retrieve and reshape marks and wgts from `mark_wgt`
 		self.marks, self.wgts = mark_wgt[:, 0].reshape(-1), mark_wgt[:, 1].reshape(-1)
 		
@@ -67,6 +73,10 @@ class MarkModel:
 		predicted_mark = np.array(self.model.predict(model_input))
 		
 		return predicted_mark.reshape(-1)
+	
+	def predict_mark(self, mark_wgt):
+		dist = self.predict_mark_dist(mark_wgt)
+		return letter_grade_key[np.argmax(dist)]
 	
 	def grade_idx(self, mark):
 		'''
